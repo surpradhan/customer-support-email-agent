@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation — Customer Support Email Agent</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        header { background: white; padding: 30px; border-radius: 8px; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        h1 { color: #333; margin-bottom: 10px; }
+        .subtitle { color: #666; font-size: 14px; }
+        .nav { margin-top: 20px; display: flex; gap: 15px; }
+        .nav a { color: #0066cc; text-decoration: none; font-size: 14px; }
+        .nav a:hover { text-decoration: underline; }
+
+        .api-section { background: white; padding: 25px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-left: 4px solid #0066cc; }
+        .api-section.post { border-left-color: #28a745; }
+        .api-section.get { border-left-color: #007bff; }
+
+        .endpoint-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+        .method { display: inline-block; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 12px; color: white; }
+        .method.get { background: #007bff; }
+        .method.post { background: #28a745; }
+        .path { font-family: 'Monaco', 'Courier New', monospace; color: #333; font-size: 16px; font-weight: 500; }
+        .description { color: #666; font-size: 14px; margin-bottom: 15px; }
+
+        .section-title { color: #333; font-size: 13px; font-weight: 600; text-transform: uppercase; margin: 15px 0 10px 0; }
+        .params, .request, .response { margin-bottom: 15px; }
+
+        .param-item { background: #f9f9f9; padding: 12px; border-radius: 4px; margin-bottom: 8px; font-size: 13px; }
+        .param-name { color: #0066cc; font-weight: 500; font-family: 'Monaco', 'Courier New', monospace; }
+        .param-type { color: #666; font-size: 12px; margin: 2px 0; }
+        .param-desc { color: #666; margin-top: 4px; }
+
+        .code-block { background: #2d2d2d; color: #f8f8f2; padding: 15px; border-radius: 4px; overflow-x: auto; margin-bottom: 15px; }
+        .code-block code { font-family: 'Monaco', 'Courier New', monospace; font-size: 12px; line-height: 1.5; }
+        code { background: #f0f0f0; padding: 2px 6px; border-radius: 3px; font-family: 'Monaco', 'Courier New', monospace; }
+
+        .field { margin: 8px 0; }
+        .field-name { color: #0066cc; font-weight: 500; }
+        .field-type { color: #666; font-size: 12px; }
+
+        .example-label { color: #999; font-size: 12px; font-weight: 600; text-transform: uppercase; margin-top: 15px; margin-bottom: 8px; }
+
+        .status-info { background: #e7f3ff; padding: 12px; border-radius: 4px; margin-bottom: 15px; border-left: 3px solid #0066cc; font-size: 13px; }
+        .status-info.success { background: #e8f5e9; border-left-color: #28a745; }
+        .status-info.error { background: #ffebee; border-left-color: #dc3545; }
+
+        .toc { background: #f9f9f9; padding: 20px; border-radius: 8px; margin-bottom: 30px; }
+        .toc h2 { color: #333; font-size: 16px; margin-bottom: 15px; }
+        .toc ul { list-style: none; }
+        .toc li { margin-bottom: 8px; }
+        .toc a { color: #0066cc; text-decoration: none; font-size: 14px; }
+        .toc a:hover { text-decoration: underline; }
+
+        .base-url { background: #f9f9f9; padding: 15px; border-radius: 4px; margin-bottom: 20px; }
+        .base-url-label { color: #666; font-size: 12px; font-weight: 600; text-transform: uppercase; }
+        .base-url-value { color: #333; font-family: 'Monaco', 'Courier New', monospace; font-size: 14px; margin-top: 5px; }
+
+        @media (max-width: 768px) {
+            .container { max-width: 100%; }
+            .endpoint-header { flex-direction: column; align-items: flex-start; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📚 API Documentation</h1>
+            <p class="subtitle">Complete reference for the Customer Support Email Agent API</p>
+            <div class="nav">
+                <a href="/">← Test Email</a>
+                <a href="/inbox.html">Inbox</a>
+                <a href="/api-docs.html">API Docs</a>
+            </div>
+        </header>
+
+        <div class="base-url">
+            <div class="base-url-label">Base URL</div>
+            <div class="base-url-value">http://localhost:8000/api/v1</div>
+        </div>
+
+        <div class="toc">
+            <h2>📋 Endpoints</h2>
+            <ul>
+                <li><a href="#process-email">Process Email</a></li>
+                <li><a href="#inbox-stats">Get Inbox Stats</a></li>
+                <li><a href="#list-inbox">List Inbox Emails</a></li>
+                <li><a href="#get-email">Get Email Details</a></li>
+                <li><a href="#list-followups">List Follow-ups</a></li>
+                <li><a href="#get-followup">Get Follow-up Details</a></li>
+                <li><a href="#health-check">Health Check</a></li>
+            </ul>
+        </div>
+
+        <!-- Process Email -->
+        <div class="api-section post" id="process-email">
+            <div class="endpoint-header">
+                <span class="method post">POST</span>
+                <span class="path">/email/process</span>
+            </div>
+            <p class="description">Process an incoming customer support email through the LangGraph agent workflow. Classifies the email, searches the knowledge base, drafts a response, and performs quality checks.</p>
+
+            <div class="section-title">Request Body</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">from_email</div>
+                    <div class="param-type">string (email)</div>
+                    <div class="param-desc">Customer's email address</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">subject</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Email subject line</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">body</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Email message body</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">conversation_id</div>
+                    <div class="param-type">string (optional)</div>
+                    <div class="param-desc">Unique identifier for tracking this conversation thread</div>
+                </div>
+            </div>
+
+            <div class="example-label">Example Request</div>
+            <div class="code-block"><code>curl -X POST http://localhost:8000/api/v1/email/process \
+  -H "Content-Type: application/json" \
+  -d '{
+    "from_email": "customer@example.com",
+    "subject": "I need help with my order",
+    "body": "I ordered item ABC123 but received the wrong product.",
+    "conversation_id": "conv_12345"
+  }'</code></div>
+
+            <div class="section-title">Response</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">category</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Classified email category (e.g., "complaint", "billing", "technical_issue")</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">sentiment</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Detected sentiment (e.g., "positive", "neutral", "negative")</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">reply_body</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">AI-generated response to the customer</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">status</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Status of email processing (e.g., "sent", "pending", "requires_followup")</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">requires_followup</div>
+                    <div class="param-type">boolean</div>
+                    <div class="param-desc">Whether this email requires manual follow-up</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">conversation_id</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Conversation identifier for tracking</div>
+                </div>
+            </div>
+
+            <div class="example-label">Example Response</div>
+            <div class="code-block"><code>{
+  "reply_body": "Thank you for contacting us. We apologize for the inconvenience...",
+  "category": "complaint",
+  "sentiment": "negative",
+  "status": "sent",
+  "requires_followup": true,
+  "conversation_id": "conv_12345"
+}</code></div>
+
+            <div class="status-info success">
+                <strong>200 OK</strong> — Email processed successfully
+            </div>
+        </div>
+
+        <!-- Get Inbox Stats -->
+        <div class="api-section get" id="inbox-stats">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/inbox/stats</span>
+            </div>
+            <p class="description">Retrieve statistics about all emails in the inbox, including totals for processed, pending, and follow-up emails.</p>
+
+            <div class="section-title">Response</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">total</div>
+                    <div class="param-type">integer</div>
+                    <div class="param-desc">Total number of emails processed</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">sent</div>
+                    <div class="param-type">integer</div>
+                    <div class="param-desc">Number of emails with responses sent</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">pending</div>
+                    <div class="param-type">integer</div>
+                    <div class="param-desc">Number of emails still pending processing</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">requires_followup</div>
+                    <div class="param-type">integer</div>
+                    <div class="param-desc">Number of emails requiring follow-up action</div>
+                </div>
+            </div>
+
+            <div class="example-label">Example Request</div>
+            <div class="code-block"><code>curl http://localhost:8000/api/v1/inbox/stats</code></div>
+
+            <div class="example-label">Example Response</div>
+            <div class="code-block"><code>{
+  "total": 42,
+  "sent": 35,
+  "pending": 5,
+  "requires_followup": 2
+}</code></div>
+
+            <div class="status-info success">
+                <strong>200 OK</strong> — Stats retrieved successfully
+            </div>
+        </div>
+
+        <!-- List Inbox Emails -->
+        <div class="api-section get" id="list-inbox">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/inbox</span>
+            </div>
+            <p class="description">Retrieve a paginated list of all emails in the inbox with their analysis results.</p>
+
+            <div class="section-title">Query Parameters</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">limit</div>
+                    <div class="param-type">integer (optional, default: 20)</div>
+                    <div class="param-desc">Maximum number of emails to return (1-100)</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">offset</div>
+                    <div class="param-type">integer (optional, default: 0)</div>
+                    <div class="param-desc">Number of emails to skip for pagination</div>
+                </div>
+            </div>
+
+            <div class="section-title">Response</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">emails</div>
+                    <div class="param-type">array</div>
+                    <div class="param-desc">Array of email objects with full details</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">total</div>
+                    <div class="param-type">integer</div>
+                    <div class="param-desc">Total number of emails in the inbox</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">limit</div>
+                    <div class="param-type">integer</div>
+                    <div class="param-desc">Limit applied to this request</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">offset</div>
+                    <div class="param-type">integer</div>
+                    <div class="param-desc">Offset applied to this request</div>
+                </div>
+            </div>
+
+            <div class="example-label">Example Request</div>
+            <div class="code-block"><code>curl "http://localhost:8000/api/v1/inbox?limit=10&offset=0"</code></div>
+
+            <div class="example-label">Email Object Fields</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">email_id</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Unique identifier for the email</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">from_email</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Customer's email address</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">subject</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Email subject line</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">body</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Email message body</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">category</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Classified category of the email</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">sentiment</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Sentiment analysis result</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">reply_body</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">AI-generated response</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">status</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Current status (e.g., "sent", "pending")</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">requires_followup</div>
+                    <div class="param-type">boolean</div>
+                    <div class="param-desc">Whether follow-up is needed</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">created_at</div>
+                    <div class="param-type">string (ISO datetime)</div>
+                    <div class="param-desc">Timestamp when email was received</div>
+                </div>
+            </div>
+
+            <div class="status-info success">
+                <strong>200 OK</strong> — Emails retrieved successfully
+            </div>
+        </div>
+
+        <!-- Get Email Details -->
+        <div class="api-section get" id="get-email">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/inbox/{email_id}</span>
+            </div>
+            <p class="description">Retrieve complete details for a specific email, including the original message and AI analysis.</p>
+
+            <div class="section-title">Path Parameters</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">email_id</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">The unique identifier of the email (required)</div>
+                </div>
+            </div>
+
+            <div class="example-label">Example Request</div>
+            <div class="code-block"><code>curl http://localhost:8000/api/v1/inbox/email_abc123def456</code></div>
+
+            <div class="status-info success">
+                <strong>200 OK</strong> — Email details retrieved
+            </div>
+            <div class="status-info error">
+                <strong>404 Not Found</strong> — Email with specified ID does not exist
+            </div>
+        </div>
+
+        <!-- List Follow-ups -->
+        <div class="api-section get" id="list-followups">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/followups</span>
+            </div>
+            <p class="description">Retrieve a list of all pending follow-ups across conversations.</p>
+
+            <div class="section-title">Response</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">followups</div>
+                    <div class="param-type">array</div>
+                    <div class="param-desc">Array of follow-up objects</div>
+                </div>
+            </div>
+
+            <div class="example-label">Example Request</div>
+            <div class="code-block"><code>curl http://localhost:8000/api/v1/followups</code></div>
+
+            <div class="example-label">Follow-up Object Fields</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">conversation_id</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Conversation identifier</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">reason</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Reason for follow-up</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">email_id</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">Associated email identifier</div>
+                </div>
+                <div class="param-item">
+                    <div class="param-name">created_at</div>
+                    <div class="param-type">string (ISO datetime)</div>
+                    <div class="param-desc">When the follow-up was created</div>
+                </div>
+            </div>
+
+            <div class="status-info success">
+                <strong>200 OK</strong> — Follow-ups retrieved successfully
+            </div>
+        </div>
+
+        <!-- Get Follow-up Details -->
+        <div class="api-section get" id="get-followup">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/followups/{conversation_id}</span>
+            </div>
+            <p class="description">Get detailed information about a specific pending follow-up.</p>
+
+            <div class="section-title">Path Parameters</div>
+            <div class="params">
+                <div class="param-item">
+                    <div class="param-name">conversation_id</div>
+                    <div class="param-type">string</div>
+                    <div class="param-desc">The conversation identifier (required)</div>
+                </div>
+            </div>
+
+            <div class="example-label">Example Request</div>
+            <div class="code-block"><code>curl http://localhost:8000/api/v1/followups/conv_12345</code></div>
+
+            <div class="status-info success">
+                <strong>200 OK</strong> — Follow-up details retrieved
+            </div>
+            <div class="status-info error">
+                <strong>404 Not Found</strong> — Follow-up not found for this conversation
+            </div>
+        </div>
+
+        <!-- Health Check -->
+        <div class="api-section get" id="health-check">
+            <div class="endpoint-header">
+                <span class="method get">GET</span>
+                <span class="path">/health</span>
+            </div>
+            <p class="description">Check if the API is running and responsive. Returns the current environment.</p>
+
+            <div class="example-label">Example Request</div>
+            <div class="code-block"><code>curl http://localhost:8000/health</code></div>
+
+            <div class="example-label">Example Response</div>
+            <div class="code-block"><code>{
+  "status": "ok",
+  "environment": "development"
+}</code></div>
+
+            <div class="status-info success">
+                <strong>200 OK</strong> — API is healthy and running
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
