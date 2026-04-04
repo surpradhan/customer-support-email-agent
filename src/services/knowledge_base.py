@@ -39,7 +39,11 @@ def search_kb(query: str, top_k: int = 3) -> str:
 
     Returns the top_k most relevant document chunks as a formatted string.
     """
-    store = _load_vectorstore()
+    try:
+        store = _load_vectorstore()
+    except FileNotFoundError as e:
+        logger.warning("Knowledge base index not found — KB lookups will be skipped. %s", e)
+        return "No relevant articles found in the knowledge base."
     results = store.similarity_search(query, k=top_k)
 
     if not results:

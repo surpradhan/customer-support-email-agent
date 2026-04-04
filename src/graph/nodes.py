@@ -35,7 +35,7 @@ async def classify_email(state: EmailAgentState) -> dict:
         category = result.get("category", "other")
         sentiment = result.get("sentiment", "neutral")
     except (json.JSONDecodeError, AttributeError):
-        logger.warning("Failed to parse classification JSON, falling back to defaults. Raw response: %s", response.content)
+        logger.warning("Failed to parse classification JSON, falling back to defaults. Raw response: %s", response.content[:300])
         category = "other"
         sentiment = "neutral"
 
@@ -111,7 +111,7 @@ async def quality_check(state: EmailAgentState) -> dict:
         requires_followup = result.get("requires_followup", False)
         followup_reason = result.get("followup_reason", "")
     except (json.JSONDecodeError, AttributeError):
-        logger.warning("Failed to parse quality check JSON, falling back to approved=True. Raw response: %s", response.content)
+        logger.warning("Failed to parse quality check JSON, falling back to approved=True. Raw response: %s", response.content[:300])
         approved = True
         requires_followup = False
         followup_reason = ""
