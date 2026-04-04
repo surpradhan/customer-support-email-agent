@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Customer Support Email Agent</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0f1117;
+      color: #e2e8f0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1a1f2e 0%, #0f1117 100%);
+      border-bottom: 1px solid #2d3748;
+      padding: 3rem 2rem 2.5rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.4rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #f7fafc;
+      margin-bottom: 0.75rem;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      color: #94a3b8;
+      max-width: 580px;
+      margin: 0 auto 1.5rem;
+    }
+
+    .badges {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .badge {
+      background: #1e2a3a;
+      border: 1px solid #2d3748;
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      font-size: 0.8rem;
+      color: #7dd3fc;
+    }
+
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+    }
+
+    h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    p { color: #94a3b8; margin-bottom: 0.75rem; }
+
+    .diagram-wrap {
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 12px;
+      padding: 2rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .diagram-wrap .mermaid {
+      max-width: 100%;
+    }
+
+    .steps {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .step {
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      background: #2563eb;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .step-title {
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-bottom: 0.2rem;
+    }
+
+    .step-desc { font-size: 0.875rem; color: #64748b; }
+
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .tech-card {
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 10px;
+      padding: 1rem;
+    }
+
+    .tech-card .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #475569;
+      margin-bottom: 0.3rem;
+    }
+
+    .tech-card .value {
+      font-weight: 600;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+    }
+
+    .code-block {
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      font-family: "SFMono-Regular", Consolas, monospace;
+      font-size: 0.875rem;
+      color: #7dd3fc;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    .code-block .comment { color: #475569; }
+
+    .cta {
+      text-align: center;
+      padding: 2rem;
+      background: #1a1f2e;
+      border: 1px solid #2d3748;
+      border-radius: 12px;
+    }
+
+    .cta p { margin-bottom: 1rem; }
+
+    .btn {
+      display: inline-block;
+      background: #2563eb;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: background 0.15s;
+    }
+
+    .btn:hover { background: #1d4ed8; }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: #334155;
+      font-size: 0.85rem;
+      border-top: 1px solid #1e293b;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Customer Support Email Agent</h1>
+  <p>An AI-powered email triage and response system built with LangGraph and local LLMs via Ollama.</p>
+  <div class="badges">
+    <span class="badge">Python 3.12</span>
+    <span class="badge">LangGraph</span>
+    <span class="badge">FastAPI</span>
+    <span class="badge">Ollama</span>
+    <span class="badge">FAISS</span>
+    <span class="badge">Runs locally</span>
+  </div>
+</header>
+
+<main>
+
+  <section>
+    <h2>How It Works</h2>
+    <p>Incoming emails flow through a LangGraph state machine. Each stage is an async node that can read and update shared state. A quality-check loop ensures the draft meets standards before sending.</p>
+    <div class="diagram-wrap">
+      <div class="mermaid">
+flowchart TD
+    A([Incoming Email]) --> B[Classify\nCategory & Sentiment]
+    B --> C[Research\nKnowledge Base]
+    C --> D[Draft Response]
+    D --> E{Quality Check}
+    E -->|approved| F[Send Response]
+    E -->|rejected — revisions < 2| D
+    F --> G([Done])
+
+    style A fill:#1e3a5f,stroke:#2563eb,color:#93c5fd
+    style G fill:#14532d,stroke:#16a34a,color:#86efac
+    style E fill:#3b1f2b,stroke:#dc2626,color:#fca5a5
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pipeline Stages</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div>
+          <div class="step-title">Classify</div>
+          <div class="step-desc">The LLM categorizes the email into one of: complaint, inquiry, refund request, feedback, technical issue, or other. Sentiment (positive, neutral, negative, urgent) is detected at the same time.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div>
+          <div class="step-title">Research</div>
+          <div class="step-desc">A semantic search query is generated and run against a FAISS vector index built from support documentation and FAQs. The top-3 matching passages are retrieved as context.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div>
+          <div class="step-title">Draft</div>
+          <div class="step-desc">A response is generated using category-specific prompt templates that incorporate the customer's email, detected sentiment, and the retrieved knowledge base context.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div>
+          <div class="step-title">Quality Check</div>
+          <div class="step-desc">A second LLM pass evaluates the draft for tone, accuracy, and completeness. If it doesn't pass, the draft is sent back for revision (up to 2 times). The check also flags whether a human follow-up is needed.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div>
+          <div class="step-title">Send</div>
+          <div class="step-desc">The final response is recorded. If follow-up is required, a follow-up tracker entry is created. In a real integration, this is where the email would be dispatched.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tech Stack</h2>
+    <div class="tech-grid">
+      <div class="tech-card"><div class="label">Orchestration</div><div class="value">LangGraph 0.2</div></div>
+      <div class="tech-card"><div class="label">LLM Runtime</div><div class="value">Ollama (llama3.2)</div></div>
+      <div class="tech-card"><div class="label">Embeddings</div><div class="value">nomic-embed-text</div></div>
+      <div class="tech-card"><div class="label">Vector Search</div><div class="value">FAISS-CPU</div></div>
+      <div class="tech-card"><div class="label">API</div><div class="value">FastAPI 0.115</div></div>
+      <div class="tech-card"><div class="label">Validation</div><div class="value">Pydantic v2</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Quick Start</h2>
+    <div class="code-block"><span class="comment"># 1. Pull required Ollama models</span>
+ollama pull llama3.2
+ollama pull nomic-embed-text
+
+<span class="comment"># 2. Install dependencies</span>
+python3.12 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env
+
+<span class="comment"># 3. Build the knowledge base index</span>
+python -m src.knowledge_base.build_index
+
+<span class="comment"># 4. Start the server</span>
+uvicorn src.main:app --reload</div>
+  </section>
+
+  <section>
+    <div class="cta">
+      <p>Source code, docs, and setup instructions on GitHub.</p>
+      <a class="btn" href="https://github.com/surpradhan/customer-support-email-agent">View on GitHub</a>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  Built with LangGraph &amp; Ollama &mdash; runs entirely on your machine.
+</footer>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: "dark" });
+</script>
+</body>
+</html>
